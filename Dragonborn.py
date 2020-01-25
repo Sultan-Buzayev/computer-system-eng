@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*- 
-# Importowanie bibliotek
+
 import pygame
 from pygame.locals import *
 import math
@@ -13,7 +12,7 @@ from sys import exit
 
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (180,100)
 
-# Inicjowanie gry
+
 pygame.init()
 start = 0
 start1 = 0
@@ -72,7 +71,7 @@ class TestSprite2(pygame.sprite.Sprite):
         self.rect = pygame.Rect(50, 10, 640, 640)
 
     def update(self):
-        ''' Ta metoda przechodzi przez elementy wewnatrz self.images i wyswietla kazdy nastepny po kazdemu kadru '''
+      
         self.index += 1
         if self.index >= len(self.images):
             self.index = 0
@@ -102,7 +101,7 @@ enemy.set_volume(0.05)
 shoot.set_volume(0.02)
 
 
-# Adding a background (Dodawanie tla)
+# Adding a background 
 grass = pygame.image.load("background.jpg")
 castle = pygame.image.load("castle2.png")
 startScreen = pygame.image.load("start11.jpg")
@@ -144,17 +143,15 @@ while running:
     screen.blit(grass, (0, 0))
     screen.blit(castle,(0, 50))
     
-    # Ustawic pozycje gracza i rotacje
     position = pygame.mouse.get_pos()
     angle = math.atan2(position[1] - (playerpos[1] + 32), position[0] - (playerpos[0] + 26))
     playerrot = pygame.transform.rotate(player, 360 - angle * 57.29)
     playerpos1 = (playerpos[0] - playerrot.get_rect().width/2, playerpos[1] - playerrot.get_rect().height/2)
     screen.blit(playerrot, playerpos1)
 
-    # Narysowac strzalki
     for bullet in arrows:
         index = 0
-        # liczba na koncu to predkosc strzalki
+       
         velx = math.cos(bullet[0]) * 25
         vely = math.sin(bullet[0]) * 25
         bullet[1] += velx
@@ -188,7 +185,6 @@ while running:
         badguy[0] -= 10
         
 
-        # Atakowanie zamku
         badrect = pygame.Rect(badguyimg[drag_index].get_rect())
         badrect.top = badguy[1]
         badrect.left = badguy[0]
@@ -198,7 +194,7 @@ while running:
             badguys.pop(index)
             cl_ch = 1
 
-        # Sprawdzanie kolizji enemy and arrow
+   
         index1 = 0
         for bullet in arrows:
             bullrect = pygame.Rect(arrow.get_rect())
@@ -219,7 +215,6 @@ while running:
         screen.blit(badguyimg[drag_index], badguy)
         
 
-    # Rysowanie zegara
     font = pygame.font.Font(None, 22)
     survivedtext = font.render(str((90000-pygame.time.get_ticks())/60000) + ":" + str((90000-pygame.time.get_ticks())/1000%60).zfill(2), True, [255, 255, 255])
     textRect = survivedtext.get_rect()
@@ -231,7 +226,7 @@ while running:
     textRect1.topleft = [220, 10]
     screen.blit(dragons_counter, textRect1)
 
-    # Rysowanie paska zdrowia
+    
     screen.blit(healthbar, (5,5))
     for health1 in range(healthvalue):
         screen.blit(health, (health1 + 8,8))
@@ -283,7 +278,7 @@ while running:
                 pygame.quit()
                 exit(0)
 
-        # Jesli kliknieto mysza, zapisz wartosc rotacji w array arrows na podstawie pozycji kursora
+   
         if event.type == pygame.MOUSEBUTTONDOWN:
             shoot.play()
             position = pygame.mouse.get_pos()
@@ -291,7 +286,7 @@ while running:
             arrows.append([math.atan2(position[1] - (playerpos1[1] + 52), position[0] - (playerpos1[0] + 56)), playerpos1[0] + 32, playerpos1[1] + 32])
 
             
-    # Zmiana pozycji gracza
+  
     if keys[0]:
         playerpos[1] -= 5
     elif keys[2]:
@@ -309,13 +304,12 @@ while running:
         running = 0
         exitcode = 0
         
-    # Wazne! Nie powinnismy dzielic sie przez 0 w przypadku, gdy gracz nie strzelil
+
     if acc[1] != 0:
         accuracy = acc[0] * 1.0 / acc[1] * 100
     else:
         accuracy = 0
 
-# Win/Lose na ekranie
 if exitcode == 0:
 
     pygame.font.init()
